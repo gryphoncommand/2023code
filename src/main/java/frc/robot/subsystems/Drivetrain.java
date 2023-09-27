@@ -31,7 +31,6 @@ public class Drivetrain extends SubsystemBase {
     
     SlewRateLimiter forFilter = new SlewRateLimiter(0.7);
     SlewRateLimiter turnFilter = new SlewRateLimiter(0.4);
-
     
     DifferentialDrive drive = new DifferentialDrive(left, right); 
    
@@ -51,17 +50,20 @@ public class Drivetrain extends SubsystemBase {
         // }
       
      if (LY < 0.15 && LY > 0.04) {
-          forFilter.reset(0.3);
+          forFilter.reset(0.3); 
         } else if (LY > -0.15 && LY < -0.04) {
           forFilter.reset(-0.3);
         } else if (LY < 0.04 && LY > -0.04) {
           forFilter.reset(0);
         }
-      if (RX < 0.1 && RX > 0) {
-        turnFilter.reset(0.1);
-      } else if (RX > -0.1 && RX < 0) {
-        turnFilter.reset(-0.1);
-      }
+      
+        if (RX < 0.4 && RX > 0.07) {
+          turnFilter.reset(0.3);
+        } else if (RX > -0.4 && RX < -0.07) {
+          turnFilter.reset(-0.3);
+        } else if (RX < 0.4 && RX > -0.07) {
+          turnFilter.reset(0);
+        }
       /* if (RX > 0){
           drive.arcadeDrive(turnFilter.calculate(RX), forFilter.calculate(LY));
         } else if (RX < 0){

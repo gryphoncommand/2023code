@@ -157,19 +157,19 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
 
-  //  return new SequentialCommandGroup(
-  //   new RunCommand(() -> {
-  //     drivetrain.arcadeDrive(0, -0.5);
-  //   }, drivetrain). withTimeout(1),
+  return new SequentialCommandGroup(
+     new RunCommand(() -> {
+       drivetrain.arcadeDrive(0, 0.7);
+     }, drivetrain). withTimeout(1.35),
 
-  //   new WaitCommand(1),
+     new WaitCommand(1),
 
-  //   new RunCommand(() -> {
-  //     drivetrain.arcadeDrive(0, 0.5);
-  //   }, drivetrain). withTimeout(2)
-  //  );
+     new RunCommand(() -> {
+       drivetrain.arcadeDrive(0, -0.5);
+     }, drivetrain). withTimeout(8)
+    );
 
-    if (driveable) {
+   /* if (driveable) {
       return new SequentialCommandGroup(
         new RunCommand(() -> {
           grabber.gogoextendo();
@@ -209,7 +209,7 @@ public class RobotContainer {
           grabber.odnetxeogog();
         }, grabber).withTimeout(0.75)
       );
-    }
+    }*/
   }
 }
 

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Grabby extends SubsystemBase {
     DoubleSolenoid grab = new DoubleSolenoid(PneumaticsModuleType.REVPH, 9, 8);
     CANSparkMax extendo = new CANSparkMax(7, MotorType.kBrushed);
-
+// change to 7
     public Grabby(){
         
     }
