@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Leviosaa;
-import frc.robot.subsystems.Grabby;
+import frc.robot.subsystems.ArmMove;
+import frc.robot.subsystems.Claw;
 
 import com.revrobotics.jni.RevJNIWrapper;
 
@@ -47,8 +47,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
-  private final Leviosaa elevator = new Leviosaa();
-  private final Grabby grabber = new Grabby();
+  private final ArmMove armMove = new ArmMove();
+  private final Claw claw = new Claw();
   private final Compressor compress = new Compressor(PneumaticsModuleType.REVPH);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final PS4Controller controller = new PS4Controller(0);
@@ -89,8 +89,8 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     drivetrain.setDefaultCommand(drive);
-    grabber.setDefaultCommand(grab);
-    elevator.setDefaultCommand(elevat);
+    claw.setDefaultCommand(grab);
+    armMove.setDefaultCommand(elevat);
   }
 
   //Teleop functionality
@@ -100,7 +100,7 @@ public class RobotContainer {
       if (controller.getCircleButton()){
         drivetrain.sneakDrive(controller.getLeftY());
       } else {
-        drivetrain.arcadeDrive(controller.getRightX(), controller.getLeftY());
+        drivetrain.arcadeDrive(-controller.getLeftY(), -controller.getRightX());
       }
       System.out.println(controller.getLeftY());
       System.out.println(controller.getRightX());
@@ -115,37 +115,29 @@ public class RobotContainer {
     private RunCommand elevat = new RunCommand(
       () -> {
         if (controller.getPOV() == 0){
-          elevator.levo();
+          armMove.armIn();
           System.out.println("lol");
         } else if (controller.getPOV() == 180){
-          elevator.stillabunt();
+          armMove.armOut();
           System.out.println("lollol");
         } else {
-          elevator.stop();
+          armMove.stop();
         }
 
-      },elevator);
+      },armMove);
 
     private RunCommand grab = new RunCommand(() -> {
-      if (controller.getR2Button()){
-        grabber.gogoextendo();
-      } else if (controller.getL2Button()){
-        grabber.odnetxeogog();
-      } else {
-        grabber.stopstopextendo();
-      }
-
       if (controller.getCrossButtonPressed()){
         if (open){
-          grabber.grabbbber_close();
+          claw.claw_open();
         } else {
-          grabber.grabbber_open();
+          claw.claw_open();
         }
         open = !open;
       }
       
     }
-    , grabber);
+    , claw);
 
 
 
@@ -159,13 +151,13 @@ public class RobotContainer {
 
   return new SequentialCommandGroup(
      new RunCommand(() -> {
-       drivetrain.arcadeDrive(0, 0.7);
+       drivetrain.arcadeDrive(0, -0.7);
      }, drivetrain). withTimeout(1.35),
 
      new WaitCommand(1),
 
      new RunCommand(() -> {
-       drivetrain.arcadeDrive(0, -0.5);
+       drivetrain.arcadeDrive(0, 0.5);
      }, drivetrain). withTimeout(8)
     );
 

@@ -39,31 +39,32 @@ public class Drivetrain extends SubsystemBase {
       leftF.setIdleMode(IdleMode.kBrake);
       rightB.setIdleMode(IdleMode.kBrake);
       rightF.setIdleMode(IdleMode.kBrake);
-      left.setInverted(true);
-      right.setInverted(true);
+      left.setInverted(false);
+      right.setInverted(false);
 
     }
     public void arcadeDrive(double RX, double LY){
-      drive.arcadeDrive(turnFilter.calculate(RX), forFilter.calculate(LY));
+      drive.arcadeDrive(forFilter.calculate(LY), turnFilter.calculate(RX));
         // if(RX > -0.05 && RX < 0.05){
         //   turnFilter.reset(0);
         // }
       
-     if (LY < 0.15 && LY > 0.04) {
-          forFilter.reset(0.3); 
-        } else if (LY > -0.15 && LY < -0.04) {
-          forFilter.reset(-0.3);
-        } else if (LY < 0.04 && LY > -0.04) {
+     if (LY < 0.4 && LY > 0.1) {
+          forFilter.reset(0.4);
+        } else if (LY > -0.4&& LY < -0.1) {
+          forFilter.reset(-0.4);
+        } 
+        /*else if (LY < 0.15 && LY > -0.04) {
           forFilter.reset(0);
-        }
+        }*/
       
-        if (RX < 0.4 && RX > 0.07) {
-          turnFilter.reset(0.3);
-        } else if (RX > -0.4 && RX < -0.07) {
-          turnFilter.reset(-0.3);
-        } else if (RX < 0.4 && RX > -0.07) {
+        if (RX < 0.4 && RX > 0.1) {
+          turnFilter.reset(0.4);
+        } else if (RX > -0.4 && RX < -0.1) {
+          turnFilter.reset(-0.4);
+        }/* else if (RX < 0.4 && RX > -0.07) {
           turnFilter.reset(0);
-        }
+        }*/
       /* if (RX > 0){
           drive.arcadeDrive(turnFilter.calculate(RX), forFilter.calculate(LY));
         } else if (RX < 0){
